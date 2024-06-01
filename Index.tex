@@ -1,0 +1,53 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage{amsmath}
+
+\title{A Planar Continuous Rock-Paper-Scissors Game}
+\author{Ivan Oreshnikov \\ oreshnikov.ivan@gmail.com}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+There exists a simulation somewhere on the web, where a swarm of rocks, a swarm of papers, and a swarm of scissors move around the plain in a Brownian motion and collide with each other. And every collision works as follows
+\begin{itemize}
+    \item{in each collision there is a winner and a loser particle, who are determined by the rules of the standard ``rock-paper-scissors'' game}
+    \item{the loser particle is converted into a winning particle and the simulation continues.}
+\end{itemize}
+In other words, there exists three types of interactions:
+\begin{align*}
+    \text{rock} + \text{paper} &= 2 \cdot \text{paper} \\
+    \text{paper} + \text{scissors} &= 2 \cdot \text{scissors} \\
+    \text{scissors} + \text{rock} &= 2 \cdot \text{rock}
+\end{align*}
+The simulation is mildly amusing to watch as is. But one can also wonder, how would the same process work if we were to replace the discrete particles with a smooth continous approximation. How would the same process work, if instead of three swarms we had three ``liquids`` on a plane?
+
+\section{Mathematical model}
+
+To work with the continous approximation we need to represent the distribution of particles on a plane with a smooth density function. Since we have three kinds of particles, we need to introduce three different density functions, namely:
+\begin{itemize}
+    \item{$r(x, y; t)$ for rocks}
+    \item{$p(x, y; t)$ for paper}
+    \item{$s(x, y; t)$ for scissors.}
+\end{itemize}
+Now since every particle in a liquid is a constant state of Brownian motion, we can say that in a collision-free environment each density function should behave according to the diffusion equation
+\begin{equation*}
+    \partial_{t} f + \frac{1}{2} \Delta f(x, y; t) = 0,
+\end{equation*}
+where $\Delta$ is the Laplacian $\partial^2_{xx} + \partial^{2}_{yy}$. Taking the collisions into account we can write the following system of equations
+\begin{subequations}
+    \label{eq:PDESystem}
+    \begin{align}
+        \partial_{t} r + \frac{1}{2} \Delta r = - p \, r + s \, r \\
+        \partial_{t} p + \frac{1}{2} \Delta p = - s \, p + r \, p \\
+        \partial_{t} s + \frac{1}{2} \Delta s = - r \, s + p \, s.
+    \end{align}
+\end{subequations}
+
+\section{Numerical methods}
+
+\eqref{eq:PDESystem} is a system of nonlinear partial differential equations. They are notoriously hard to reason about. Nevertheless we will try in the sections that follow. But first let us try and propose a numerical approach the equations.
+
+\end{document}
